@@ -256,7 +256,7 @@
       status.textContent = 'Enviando sua solicitação...'
 
       try {
-        const response = await fetch('/submit.php', {
+        const response = await fetch('/api/consultoria/submissions', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
