@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultoria de Arquitetura | Studio132</title>
+  <meta name="description" content="Soluções mais rápidas para problemas reais com a consultoria de arquitetura Studio132.">
+  <link rel="stylesheet" href="/css/consultoria-studio132.css">
+  <style>
+    .carousel { --card-width: min(30vw, 360px); --card-gap: 48px; position: relative; margin-top: 50px; padding: 0 0 45px; overflow: hidden; }
+    .carousel::before, .carousel::after { content: ''; position: absolute; top: 0; bottom: 45px; z-index: 1; width: 14%; pointer-events: none; }
+    .carousel::before { left: 0; background: linear-gradient(90deg, var(--paper), transparent); }
+    .carousel::after { right: 0; background: linear-gradient(270deg, var(--paper), transparent); }
+    .carousel .projects { display: flex; width: max-content; gap: var(--card-gap); margin-left: calc(50% - (var(--card-width) / 2)); transition: transform .45s ease; }
+    .carousel .project { flex: 0 0 var(--card-width); width: var(--card-width); min-height: 0; height: auto; margin: 0; aspect-ratio: 3 / 2; border-radius: 20px; background: #e5e3dc; transition: transform .45s ease, opacity .45s ease; }
+    .carousel .project img { padding: 0; object-fit: cover; }
+    .carousel .project figcaption { display: none; }
+    .carousel-button { position: absolute; top: calc(50% - 27px); z-index: 3; display: grid; place-items: center; width: 54px; height: 54px; padding: 0; border: 0; border-radius: 50%; background: rgba(244, 243, 239, .94); color: #171717; cursor: pointer; }
+    .carousel-button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .ui-icon { width: 15px; height: 15px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+    .button .ui-icon { width: 16px; height: 16px; }
+    .underlined .ui-icon, .nav-link .ui-icon { width: 13px; height: 13px; margin-left: 3px; }
+    .trust .ui-icon { width: 14px; height: 14px; margin-right: 4px; color: #5d8b63; }
+     .whatsapp .ui-icon, .underlined[href^="https://wa.me/"] .ui-icon { width: 25px; height: 25px; fill: currentColor; stroke: none; }
+     .whatsapp { width: 56px; height: 56px; border: 0; border-radius: 50%; background: #25D366; color: #fff; box-shadow: 0 10px 25px rgba(0, 0, 0, .18); transition: background-color .2s ease; }
+     .whatsapp:hover { background: #20c05c; }
+     .whatsapp .ui-icon { width: 28px; height: 28px; }
+     .underlined[href^="https://wa.me/"] { display: inline-flex; align-items: center; gap: 7px; }
+     .underlined[href^="https://wa.me/"] .ui-icon { width: 18px; height: 18px; margin-left: 0; }
+     .footer .social-link { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); text-decoration: none; font: 10px 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+     .footer .social-link:hover { color: var(--ink); }
+     .footer .social-link .ui-icon { width: 13px; height: 13px; margin: 0; }
+    .logo { display: inline-flex; align-items: center; }
+    .logo img { display: block; width: auto; height: 32px; }
+    .footer .logo img { height: 28px; }
+    .about-mark { display: grid; place-items: center; }
+     .about-mark img { display: block; width: min(62%, 180px); height: auto; filter: brightness(0) invert(1); }
+     .hero-art > small { z-index: 1; background: var(--yellow); padding-right: 8px; }
+    .carousel-button:hover { background: #f3ca22; border-color: #f3ca22; }
+    .carousel-button.previous { left: 20px; }
+    .carousel-button.next { right: 20px; }
+    .carousel-dots { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; gap: 0; }
+     .carousel-dots button { display: grid; place-items: center; width: 24px; height: 32px; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
+    .carousel-dots button::before { content: ''; display: block; width: 7px; height: 7px; border-radius: 50%; background: #c8c7bf; }
+      .carousel-dots button.active { width: 24px; border-radius: 50%; background: transparent; }
+      .carousel-dots button.active::before { width: 16px; border-radius: 5px; background: #171717; }
+     .package-list { display: grid; gap: 9px; margin: 20px 0 0; padding: 0; list-style: none; }
+     .package small, .package-head b { font-size: 12px; }
+     .package h3 { font-size: 25px; }
+     .package > p { font-size: 13px; line-height: 1.6; }
+     .package-list li { position: relative; padding-left: 17px; color: #64645e; font-size: 14px; line-height: 1.5; }
+     .package-list li::before { content: ''; position: absolute; top: .6em; left: 0; width: 5px; height: 5px; border-radius: 50%; background: var(--yellow); }
+     .package .price strong { font-size: 25px; }
+    @media (min-width: 801px) {
+      .carousel .project:not(.active) { opacity: .72; }
+      .carousel .project.active { opacity: 1; transform: scale(1.03); }
+    }
+    @media (max-width: 800px) {
+      .carousel { --card-width: calc(100vw - 64px); --card-gap: 16px; width: calc(100% + 32px); margin-left: -16px; margin-right: -16px; padding-right: 32px; padding-left: 32px; }
+      .carousel::before, .carousel::after { width: 10%; }
+      .carousel .projects { width: 100%; margin-left: 0; }
+      .carousel .project { flex-basis: 100%; width: 100%; }
+      .carousel-button { top: calc(50% - 15px); width: 36px; height: 36px; }
+      .carousel-button.previous { left: 4px; }
+      .carousel-button.next { right: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+     <a class="logo" href="#inicio" aria-label="Studio132"><img src="/images/logo-studio132-horizontal.webp?v=3" alt="Studio132"></a>
+    <nav><a href="#pacotes">Consultorias</a><a href="#sobre">Sobre nós</a><a href="#projetos">Projetos</a></nav>
+    <a class="nav-link" href="#solicitar">Agende sua reunião <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow">NEUROARQUITETURA APLICADA</p>
+        <h1>Consultoria de arquitetura:<br><em>soluções mais rápidas<br>para problemas reais.</em></h1>
+        <p class="lead">Clareza para decidir, estratégia para transformar. Encontre novas possibilidades para o seu ambiente com quem entende de pessoas e espaços.</p>
+        <div class="actions"><a class="button dark" href="#pacotes">Conheça os pacotes <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a><a class="underlined" href="#sobre">Conheça a Studio132 <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a></div>
+        <p class="trust"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>Atendimento online &nbsp;·&nbsp; Soluções econômicas e reais</p>
+      </div>
+      <div class="hero-art"><div class="art-grid"></div><p>Arquitetura para<br><strong>sentir e viver.</strong></p><b>132</b><small>UM NOVO OLHAR PARA O SEU AMBIENTE</small></div>
+    </section>
+
+    <section id="pacotes" class="section shell">
+      <div class="section-title"><p class="eyebrow">ESCOLHA O SEU PRÓXIMO PASSO</p><h2>Consultorias que<br><em>cabem na vida real.</em></h2><p>Do insight à transformação completa, existe um caminho possível para o seu ambiente.</p></div>
+      <div class="package-grid">
+         <article class="package"><div class="package-head"><small>NÍVEL 01</small></div><h3>Reunião com Especialista</h3><p>Uma reunião com um de nossos arquitetos, para descobrir as principais problemáticas e encontrar soluções diversas e possibilidades.</p><hr><small>ESSE NÍVEL CONTA COM</small><ul class="package-list"><li>Reunião com profissional</li><li>Quadro de ideias</li><li>Croquis, se necessário</li><li>Material de apoio</li></ul><hr><small>IDEAL PARA</small><p>Reorganizar os móveis, sugestões de cores para ambientes, correções pontuais como trocas de elementos que não precisam de medidas ou de detalhamentos. Serve para aqueles que não enxergam o potencial dos seus ambientes.</p><div class="price"><small>VALOR</small><strong>R$ 450,00</strong></div></article>
+         <article class="package featured"><div class="package-head"><small>NÍVEL 02</small><b>MAIS ESCOLHIDO</b></div><h3>Consultoria de Layout</h3><p>A mesma reunião, porém com o foco de criarmos uma planta com os mobiliários, em suas medidas ou possibilidades, com escolhas de elementos de decorações e alguns pequenos detalhamentos.</p><hr><small>ESSE NÍVEL CONTA COM</small><ul class="package-list"><li>Reunião com profissional</li><li>Planta de layout</li><li>Quadro de referências</li><li>Planilha de compras simplificada</li><li>Material de apoio</li></ul><hr><small>IDEAL PARA</small><p>Trocar ou comprar móveis novos, escolher cores, fazer detalhes, texturas ou uma parte estética interessante para o seu ambiente, rever iluminação, criar um clima, solucionar problemas, ajudar a escolher revestimentos ou elementos e receber direcionamento.</p><div class="price"><small>VALOR</small><strong>R$ 850,00</strong></div></article>
+         <article class="package"><div class="package-head"><small>NÍVEL 03</small></div><h3>Consultoria Completa</h3><p>A reunião com o profissional, focando em pensar no ambiente por completo. Móveis a serem comprados, trocas de revestimentos, escolha de cores, melhoria da iluminação. Nesse nível está incluso móveis planejados ou bancadas.</p><hr><small>ESSE NÍVEL CONTA COM</small><ul class="package-list"><li>Reunião com profissional</li><li>Planta de layout</li><li>Renderização</li><li>Detalhamentos</li><li>Paginação de revestimentos</li><li>Planilha de compras</li><li>Material de apoio</li></ul><hr><small>IDEAL PARA</small><p>Um retoque total em seu ambiente. Quem busca móveis planejados, trabalho com pedras, escolha de revestimentos, troca de mobiliários, refazer forro, trazer um novo visual.</p><div class="price"><small>VALOR</small><strong>R$ 1.250,00</strong></div></article>
+      </div>
+    </section>
+
+     <section class="rules shell"><div><p class="eyebrow">ANTES DE COMEÇAR</p><h2>Transparência<br><em>em cada etapa.</em></h2></div><ol><li>O nível será conferido durante a reunião e será proposto o mais recomendado, dependendo do caso.</li><li>O tamanho máximo dos ambientes são de 20m².</li><li>Consultoria válida para Residencial e Comercial.</li><li>Fachadas e Muros também estão inclusas nos ambientes e serão analisadas em qual dos Níveis se encaixam, devido à complexidade.</li><li>Nada será feito sem o consentimento de ambas as partes.</li><li>Será cobrado o valor de 50% no ato da reunião e os outros 50% na entrega.</li><li>O contato será feito pelo WhatsApp, no próximo dia útil e a reunião acontecerá pelo Meet.</li><li>Disponibilidade conforme agenda.</li></ol></section>
+
+     <section id="sobre" class="about"><div class="about-mark"><img src="/images/logo-studio132-simbolo-novo.webp?v=1" alt="Studio132"></div><div><p class="eyebrow">QUEM SOMOS</p><h2>Arquitetura que<br><em>cuida de você.</em></h2><p>Somos um escritório de Neuroarquitetura, focado em trazer soluções que valorizam o Bem-Estar e a Qualidade de Vida em nossos Projetos Residenciais e Produtividade e Qualidade de Atendimento para os Projetos Comerciais.</p><p>Estamos no mercado há 6 anos. Enxergamos a Arquitetura como algo justo e acessível e por isso somos claros e transparentes com os nossos clientes. Temos experiência em atendimento online, metodologia precisa e direcionada em soluções econômicas e reais.</p></div></section>
+
+     <section id="projetos" class="section shell"><div class="section-title"><p class="eyebrow">PORTFÓLIO</p><h2>Ideias que<br><em>ganharam espaço.</em></h2><p>Cada projeto começa com uma escuta atenta e termina em um ambiente que faz sentido.</p></div><div class="carousel" role="region" aria-roledescription="carousel" aria-label="Projetos Studio132"><div class="projects"><figure class="project" role="group" aria-roledescription="slide" aria-label="Projeto 1 de 4"><img src="/images/projeto-casa-contemporanea.webp" alt="Projeto residencial Studio132" loading="lazy"><figcaption><small>RESIDENCIAL</small><strong>Casa contemporânea</strong></figcaption></figure><figure class="project" role="group" aria-roledescription="slide" aria-label="Projeto 2 de 4"><img src="/images/projeto-sala-de-estar.webp" alt="Projeto de neuroarquitetura Studio132" loading="lazy"><figcaption><small>NEUROARQUITETURA</small><strong>Sala de estar</strong></figcaption></figure><figure class="project" role="group" aria-roledescription="slide" aria-label="Projeto 3 de 4"><img src="/images/projeto-espaco-de-trabalho.webp" alt="Projeto comercial Studio132" loading="lazy"><figcaption><small>COMERCIAL</small><strong>Espaço de trabalho</strong></figcaption></figure><figure class="project" role="group" aria-roledescription="slide" aria-label="Projeto 4 de 4"><img src="/images/projeto-cozinha-essencial.webp" alt="Projeto residencial Studio132" loading="lazy"><figcaption><small>RESIDENCIAL</small><strong>Cozinha essencial</strong></figcaption></figure></div><button class="carousel-button previous" type="button" aria-label="Projeto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button><button class="carousel-button next" type="button" aria-label="Próximo projeto"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button><div class="carousel-dots" role="group" aria-label="Selecionar projeto"><button class="active" type="button" aria-pressed="true" aria-label="Ir para projeto 1"></button><button type="button" aria-pressed="false" aria-label="Ir para projeto 2"></button><button type="button" aria-pressed="false" aria-label="Ir para projeto 3"></button><button type="button" aria-pressed="false" aria-label="Ir para projeto 4"></button></div></div></section>
+
+     <section id="solicitar" class="contact shell"><div><p class="eyebrow">VAMOS CONVERSAR</p><h2>Seu ambiente<br><em>começa aqui.</em></h2><p>Preencha o formulário e entraremos em contato pelo WhatsApp no próximo dia útil.</p><a class="underlined" href="https://wa.me/5566999899003" target="_blank" rel="noreferrer"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>Falar pelo WhatsApp</a></div><form id="consultoria-form"><label>Nome *<input name="nome" required placeholder="Seu nome completo"></label><div class="row"><label>Cidade/UF *<input name="cidade_uf" required placeholder="Ex: São Paulo / SP"></label><label>WhatsApp *<input name="whatsapp" required placeholder="(00) 00000-0000"></label></div><div class="row"><label>Melhor horário *<select name="horario_contato" required><option value="" disabled selected>Selecione...</option><option>Manhã</option><option>Tarde</option></select></label><label>Tipo de projeto *<select name="tipo_projeto" required><option value="" disabled selected>Selecione...</option><option>Residencial</option><option>Comercial</option></select></label></div><label>Ambiente *<input name="ambiente" required placeholder="Ex: Sala de Estar, Quarto, Consultório..."></label><label>Nível escolhido *<select name="nivel_escolhido" required><option value="" disabled selected>Selecione o nível...</option><option>Nível 01 – Reunião com Especialista</option><option>Nível 02 – Consultoria de Layout</option><option>Nível 03 – Consultoria Completa</option></select></label><button class="button dark" type="submit">Enviar solicitação <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button></form></section>
+  </main>
+   <footer class="shell footer"><a class="logo" href="#inicio" aria-label="Studio132"><img src="/images/logo-studio132-horizontal.webp?v=3" alt="Studio132"></a><p>© Studio132 Neuroarquitetura. Todos os direitos reservados.</p><a class="social-link" href="https://instagram.com/studio132.arq" target="_blank" rel="noreferrer">Instagram <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a></footer>
+   <a class="whatsapp" href="https://wa.me/5566999899003?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20Consultoria." target="_blank" rel="noreferrer" aria-label="WhatsApp"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg></a>
+  <script>
+    const carousel = document.querySelector('.carousel')
+    const track = carousel.querySelector('.projects')
+    const portfolioImages = Array.from({ length: 15 }, (_, index) => {
+      const number = String(index + 1).padStart(2, '0')
+      return `/images/projeto-${number}.webp`
+    })
+    track.innerHTML = portfolioImages.map((src, index) => `
+      <figure class="project" role="group" aria-roledescription="slide" aria-label="Projeto ${index + 1} de ${portfolioImages.length}">
+        <img src="${src}" alt="Projeto ${String(index + 1).padStart(2, '0')} Studio132" loading="lazy">
+        <figcaption><small>PORTFÓLIO</small><strong>Projeto ${String(index + 1).padStart(2, '0')}</strong></figcaption>
+      </figure>
+    `).join('')
+    const dotsContainer = carousel.querySelector('.carousel-dots')
+    dotsContainer.innerHTML = portfolioImages.map((_, index) => `
+      <button type="button" aria-label="Ir para o projeto ${index + 1}" aria-pressed="${index === 0}"></button>
+    `).join('')
+    const slides = [...carousel.querySelectorAll('.project')]
+    const dots = [...dotsContainer.querySelectorAll('button')]
+    const portfolioEyebrow = document.querySelector('#projetos .eyebrow')
+    if (portfolioEyebrow) portfolioEyebrow.textContent = 'CONHEÇA NOSSOS PROJETOS'
+
+    const contactIntro = document.querySelector('.contact > div > p:not(.eyebrow)')
+    if (contactIntro) contactIntro.textContent = 'Preencha os campos abaixo para agendarmos sua reunião. Entraremos em contato pelo WhatsApp no próximo dia útil.'
+
+    const footer = document.querySelector('.footer')
+    if (footer) {
+       footer.insertAdjacentHTML('beforeend', '<a class="social-link" href="https://facebook.com/studio132.arq" target="_blank" rel="noreferrer">Facebook <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg></a>')
+    }
+    const lastClone = slides[slides.length - 1].cloneNode(true)
+    const firstClone = slides[0].cloneNode(true)
+    lastClone.setAttribute('aria-hidden', 'true')
+    firstClone.setAttribute('aria-hidden', 'true')
+    track.prepend(lastClone)
+    track.append(firstClone)
+    const physicalSlides = [...track.querySelectorAll('.project')]
+    let currentSlide = 0
+    let physicalSlide = 1
+    let touchStartX = 0
+    let touchStartY = 0
+    let resizeFrame = 0
+
+    function setTrackPosition(animate = true) {
+      const target = physicalSlides[physicalSlide]
+      const previousTransform = track.style.transform
+      track.style.transition = 'none'
+      track.style.transform = 'none'
+      const carouselRect = carousel.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      const offset = carouselRect.left + carouselRect.width / 2 - (targetRect.left + targetRect.width / 2)
+      track.style.transform = previousTransform
+      track.offsetWidth
+      track.style.transition = animate ? '' : 'none'
+      track.style.transform = `translateX(${offset}px)`
+    }
+
+    function updateSlideState() {
+      physicalSlides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('active', slideIndex === physicalSlide)
+      })
+      slides.forEach((slide, slideIndex) => {
+        slide.setAttribute('aria-label', `Projeto ${slideIndex + 1} de ${slides.length}`)
+      })
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('active', dotIndex === currentSlide)
+        dot.setAttribute('aria-pressed', String(dotIndex === currentSlide))
+      })
+    }
+
+    function goToSlide(index, animate = true, force = false) {
+      if (!force && (physicalSlide === 0 || physicalSlide === slides.length + 1)) return
+      const previousSlide = currentSlide
+      currentSlide = ((index % slides.length) + slides.length) % slides.length
+      physicalSlide = currentSlide + 1
+      if (previousSlide === slides.length - 1 && currentSlide === 0 && index > previousSlide) {
+        physicalSlide = slides.length + 1
+      } else if (previousSlide === 0 && currentSlide === slides.length - 1 && index < previousSlide) {
+        physicalSlide = 0
+      }
+      setTrackPosition(animate)
+      updateSlideState()
+      if (!animate) {
+        requestAnimationFrame(() => { track.style.transition = '' })
+      }
+    }
+
+    track.addEventListener('transitionend', (event) => {
+      if (event.target !== track || event.propertyName !== 'transform' || (physicalSlide !== 0 && physicalSlide !== slides.length + 1)) return
+      physicalSlide = physicalSlide === 0 ? slides.length : 1
+      track.style.transition = 'none'
+      setTrackPosition(false)
+      updateSlideState()
+      requestAnimationFrame(() => { track.style.transition = '' })
+    })
+
+    carousel.querySelector('.previous').addEventListener('click', () => goToSlide(currentSlide - 1))
+    carousel.querySelector('.next').addEventListener('click', () => goToSlide(currentSlide + 1))
+    dots.forEach((dot, index) => dot.addEventListener('click', () => goToSlide(index)))
+    carousel.addEventListener('touchstart', (event) => {
+      touchStartX = event.changedTouches[0].screenX
+      touchStartY = event.changedTouches[0].screenY
+    }, { passive: true })
+    carousel.addEventListener('touchend', (event) => {
+      const distanceX = event.changedTouches[0].screenX - touchStartX
+      const distanceY = event.changedTouches[0].screenY - touchStartY
+      touchStartX = 0
+      touchStartY = 0
+      if (Math.abs(distanceX) > 45 && Math.abs(distanceX) > Math.abs(distanceY)) {
+        goToSlide(currentSlide + (distanceX < 0 ? 1 : -1))
+      }
+    }, { passive: true })
+    carousel.addEventListener('touchcancel', () => { touchStartX = 0; touchStartY = 0 }, { passive: true })
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(resizeFrame)
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = 0
+        goToSlide(currentSlide, false, true)
+      })
+    })
+
+    goToSlide(0, false)
+
+    document.getElementById('consultoria-form').addEventListener('submit', async function (event) {
+      event.preventDefault()
+      const form = event.currentTarget
+      const submitButton = form.querySelector('button[type="submit"]')
+      const data = new FormData(form)
+      const whatsappWindow = window.open('', '_blank')
+      const message = [
+        'Olá! Gostaria de solicitar uma consultoria Studio132.',
+        '',
+        `Nome: ${data.get('nome')}`,
+        `Cidade/UF: ${data.get('cidade_uf')}`,
+        `WhatsApp: ${data.get('whatsapp')}`,
+        `Melhor horário: ${data.get('horario_contato')}`,
+        `Tipo de projeto: ${data.get('tipo_projeto')}`,
+        `Ambiente: ${data.get('ambiente')}`,
+        `Nível de interesse: ${data.get('nivel_escolhido')}`
+      ].join('\n')
+
+      let status = form.querySelector('.form-status')
+      if (!status) {
+        status = document.createElement('p')
+        status.className = 'form-status'
+        status.style.cssText = 'margin:14px 0 0;color:#777771;font-size:12px;line-height:1.5'
+        form.append(status)
+      }
+
+      submitButton.disabled = true
+      status.textContent = 'Enviando sua solicitação...'
+
+      try {
+        const response = await fetch('/submit.php', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify(Object.fromEntries(data.entries()))
+        })
+        const result = await response.json()
+
+        if (!response.ok) throw new Error(result.message || 'Não foi possível enviar sua solicitação.')
+
+        status.textContent = 'Solicitação recebida. Abrindo o WhatsApp...'
+        const whatsappUrl = `https://wa.me/5566999899003?text=${encodeURIComponent(message)}`
+        if (whatsappWindow) {
+          whatsappWindow.location = whatsappUrl
+        } else {
+          window.open(whatsappUrl, '_blank', 'noopener')
+        }
+      } catch (error) {
+        if (whatsappWindow) whatsappWindow.close()
+        status.textContent = error.message || 'Não foi possível enviar sua solicitação.'
+        status.style.color = '#a34a3b'
+        submitButton.disabled = false
+      }
+    })
+  </script>
+</body>
+</html>
