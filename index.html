@@ -237,19 +237,6 @@
       const form = event.currentTarget
       const submitButton = form.querySelector('button[type="submit"]')
       const data = new FormData(form)
-      const whatsappWindow = window.open('', '_blank')
-      const message = [
-        'Olá! Gostaria de solicitar uma consultoria Studio132.',
-        '',
-        `Nome: ${data.get('nome')}`,
-        `Cidade/UF: ${data.get('cidade_uf')}`,
-        `WhatsApp: ${data.get('whatsapp')}`,
-        `Melhor horário: ${data.get('horario_contato')}`,
-        `Tipo de projeto: ${data.get('tipo_projeto')}`,
-        `Ambiente: ${data.get('ambiente')}`,
-        `Nível de interesse: ${data.get('nivel_escolhido')}`
-      ].join('\n')
-
       let status = form.querySelector('.form-status')
       if (!status) {
         status = document.createElement('p')
@@ -275,16 +262,15 @@
 
         if (!response.ok) throw new Error(result.message || 'Não foi possível enviar sua solicitação.')
 
-        status.textContent = 'Solicitação recebida. Abrindo o WhatsApp...'
-        const whatsappUrl = `https://wa.me/5566999899003?text=${encodeURIComponent(message)}`
-        if (whatsappWindow) {
-          whatsappWindow.location = whatsappUrl
-        } else {
-          window.open(whatsappUrl, '_blank', 'noopener')
-        }
-      } catch (error) {
-        if (whatsappWindow) whatsappWindow.close()
-        status.textContent = error.message || 'Não foi possível enviar sua solicitação.'
+         status.textContent = 'Solicitação recebida. Abrindo o card no Trello...'
+         if (result.card?.url) {
+           window.location.assign(result.card.url)
+         } else {
+           status.textContent = 'Solicitação recebida, mas o link do card não foi retornado.'
+           submitButton.disabled = false
+         }
+       } catch (error) {
+         status.textContent = error.message || 'Não foi possível enviar sua solicitação.'
         status.style.color = '#a34a3b'
         submitButton.disabled = false
       }
