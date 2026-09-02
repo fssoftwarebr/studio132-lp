@@ -38,7 +38,6 @@ test('creates a Trello card from a valid submission', async () => {
   assert.equal(response.status, 201)
   assert.deepEqual(await response.json(), {
     message: 'Solicitação enviada com sucesso.',
-    card: { id: 'card-123', url: 'https://trello.com/c/card-123' },
   })
   assert.equal(request.input, 'https://api.trello.com/1/cards')
   assert.equal(new URLSearchParams(request.init.body).get('idList'), 'test-list')

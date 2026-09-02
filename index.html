@@ -262,13 +262,9 @@
 
         if (!response.ok) throw new Error(result.message || 'Não foi possível enviar sua solicitação.')
 
-         status.textContent = 'Solicitação recebida. Abrindo o card no Trello...'
-         if (result.card?.url) {
-           window.location.assign(result.card.url)
-         } else {
-           status.textContent = 'Solicitação recebida, mas o link do card não foi retornado.'
-           submitButton.disabled = false
-         }
+         status.textContent = 'Recebemos sua solicitação. Em breve entraremos em contato.'
+         form.reset()
+         submitButton.disabled = false
        } catch (error) {
          status.textContent = error.message || 'Não foi possível enviar sua solicitação.'
         status.style.color = '#a34a3b'

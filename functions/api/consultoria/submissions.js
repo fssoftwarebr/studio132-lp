@@ -81,15 +81,9 @@ export async function onRequestPost({ request, env, fetch: fetchRequest }) {
     return json({ message: 'Não foi possível registrar sua solicitação agora.' }, 502)
   }
 
-  const card = await response.json()
+  await response.json()
 
-  return json({
-    message: 'Solicitação enviada com sucesso.',
-    card: {
-      id: card.id ?? null,
-      url: card.shortUrl ?? card.url ?? null,
-    },
-  }, 201)
+  return json({ message: 'Solicitação enviada com sucesso.' }, 201)
 }
 
 function json(body, status) {
