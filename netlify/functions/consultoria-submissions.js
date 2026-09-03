@@ -18,7 +18,7 @@ function json(body, status) {
 }
 
 function readNetlifyEnvironment(name) {
-  return globalThis.Netlify?.env.get(name)
+  return process.env[name]
 }
 
 export function createConsultoriaHandler({

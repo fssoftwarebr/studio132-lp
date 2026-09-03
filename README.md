@@ -75,4 +75,4 @@ netlify link
 netlify deploy --prod
 ```
 
-O formulário envia os dados para `/api/consultoria/submissions`. Essa rota é atendida por `netlify/functions/consultoria-submissions.mts`, que valida a solicitação e cria o card na lista configurada do Trello.
+O formulário envia os dados para `/api/consultoria/submissions`. Essa rota é atendida por `netlify/functions/consultoria-submissions.js`, que valida a solicitação e cria o card na lista configurada do Trello.

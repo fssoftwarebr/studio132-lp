@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import {
   config,
   createConsultoriaHandler,
-} from '../netlify/functions/consultoria-submissions.mts'
+} from '../netlify/functions/consultoria-submissions.js'
 
 const validPayload = {
   nome: 'Maria Silva',
@@ -75,6 +75,39 @@ test('returns a service error when Trello rejects the submission', async () => {
   assert.deepEqual(await response.json(), {
     message: 'Não foi possível registrar sua solicitação agora.',
   })
+})
+
+test('reads Trello credentials from the Netlify Node environment', async () => {
+  const previousEnvironment = {
+    TRELLO_API_KEY: process.env.TRELLO_API_KEY,
+    TRELLO_API_TOKEN: process.env.TRELLO_API_TOKEN,
+    TRELLO_LIST_ID: process.env.TRELLO_LIST_ID,
+  }
+
+  process.env.TRELLO_API_KEY = 'process-key'
+  process.env.TRELLO_API_TOKEN = 'process-token'
+  process.env.TRELLO_LIST_ID = 'process-list'
+
+  try {
+    let trelloRequest
+    const submit = createConsultoriaHandler({
+      fetchImpl: async (input, init) => {
+        trelloRequest = { input, init }
+        return Response.json({ id: 'card-123' })
+      },
+    })
+    const response = await submit(createRequest(validPayload))
+
+    assert.equal(response.status, 201)
+    assert.equal(new URLSearchParams(trelloRequest.init.body).get('key'), 'process-key')
+    assert.equal(new URLSearchParams(trelloRequest.init.body).get('token'), 'process-token')
+    assert.equal(new URLSearchParams(trelloRequest.init.body).get('idList'), 'process-list')
+  } finally {
+    for (const [name, value] of Object.entries(previousEnvironment)) {
+      if (value === undefined) delete process.env[name]
+      else process.env[name] = value
+    }
+  }
 })
 
 test('exposes the existing form endpoint as a native Netlify route', () => {
