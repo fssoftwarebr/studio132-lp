@@ -1,11 +1,12 @@
 # Studio132 Landing Page
 
-Landing page da Studio132 em HTML/CSS/JavaScript, publicada no Cloudflare Pages, com formulário de contato integrado ao Trello por Pages Function.
+Landing page da Studio132 em HTML/CSS/JavaScript, publicada na Netlify, com formulário de contato integrado ao Trello por uma Netlify Function.
 
 ## Requisitos
 
 - Node.js 20 ou superior
-- Conta Cloudflare com Pages habilitado
+- Site configurado na Netlify
+- Netlify CLI para desenvolvimento local
 - Uma chave e um token da API do Trello
 - O ID da lista do Trello que receberá os novos cards
 
@@ -32,15 +33,15 @@ npm install
 
 ## Desenvolvimento local
 
-Inicie o Cloudflare Pages localmente:
+Inicie o ambiente local da Netlify:
 
 ```bash
 npm run dev
 ```
 
-Acesse `http://localhost:8788` no navegador.
+Acesse `http://localhost:8889` no navegador.
 
-Para testar a integração com o Trello, crie um arquivo `.dev.vars`:
+Para testar a integração com o Trello, crie um arquivo `.env`:
 
 ```dotenv
 TRELLO_API_KEY=sua_chave
@@ -48,9 +49,9 @@ TRELLO_API_TOKEN=seu_token
 TRELLO_LIST_ID=id_da_lista_Leads
 ```
 
-O arquivo `.dev.vars` não deve ser versionado. As credenciais nunca são enviadas ao navegador.
+O arquivo `.env` não deve ser versionado. As credenciais nunca são enviadas ao navegador.
 
-Execute os testes da Pages Function com:
+Execute os testes da Netlify Function com:
 
 ```bash
 npm test
@@ -58,27 +59,20 @@ npm test
 
 ## Produção
 
-No Cloudflare Pages, conecte o repositório GitHub e use estas configurações:
+Na Netlify, conecte o repositório e use estas configurações:
 
 - **Build command:** vazio
-- **Build output directory:** `.`
+- **Publish directory:** `.`
+- **Functions directory:** `netlify/functions`
 
-Em **Settings > Variables and Secrets**, adicione `TRELLO_API_KEY`, `TRELLO_API_TOKEN` e `TRELLO_LIST_ID` como secrets, não como valores públicos.
+Em **Project configuration > Environment variables**, adicione `TRELLO_API_KEY`, `TRELLO_API_TOKEN` e `TRELLO_LIST_ID`. As credenciais ficam disponíveis somente no servidor e nunca são enviadas ao navegador.
 
-Também é possível publicar diretamente com o Wrangler:
-
-```bash
-npx wrangler login
-npx wrangler pages project create studio132-lp
-npx wrangler pages deploy . --project-name=studio132-lp
-```
-
-O formulário envia os dados para `functions/api/consultoria-submissions.js`, que valida a solicitação e cria o card na lista configurada do Trello.
-
-Para configurar os secrets via Wrangler:
+Também é possível publicar diretamente com a Netlify CLI:
 
 ```bash
-npx wrangler pages secret put TRELLO_API_KEY --project-name=studio132-lp
-npx wrangler pages secret put TRELLO_API_TOKEN --project-name=studio132-lp
-npx wrangler pages secret put TRELLO_LIST_ID --project-name=studio132-lp
+netlify login
+netlify link
+netlify deploy --prod
 ```
+
+O formulário envia os dados para `/api/consultoria/submissions`. Essa rota é atendida por `netlify/functions/consultoria-submissions.mts`, que valida a solicitação e cria o card na lista configurada do Trello.
