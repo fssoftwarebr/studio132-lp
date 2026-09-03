@@ -4,9 +4,10 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "dev": "wrangler pages dev ."
+    "dev": "netlify dev --port 8889"
   },
   "devDependencies": {
+    "netlify-cli": "^23.3.0",
     "wrangler": "^4.0.0"
   }
 }
