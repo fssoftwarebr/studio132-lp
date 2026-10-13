@@ -28,10 +28,12 @@ function handler(fetchImpl) {
     TRELLO_API_KEY: 'test-key',
     TRELLO_API_TOKEN: 'test-token',
     TRELLO_LIST_ID: 'test-list',
+    TETOAPP_LEAD_URL: 'https://tetoapp.test/leads',
+    TETOAPP_LEAD_TOKEN: 'test-lead-token',
   }
 
   return createConsultoriaHandler({
-    fetchImpl,
+    fetchImpl: (input, init) => input === 'https://tetoapp.test/leads' ? Promise.resolve(Response.json({data: {id: 1}, duplicate: false}, {status: 201})) : fetchImpl(input, init),
     getEnvironment: (name) => environment[name],
   })
 }
@@ -82,16 +84,21 @@ test('reads Trello credentials from the Netlify Node environment', async () => {
     TRELLO_API_KEY: process.env.TRELLO_API_KEY,
     TRELLO_API_TOKEN: process.env.TRELLO_API_TOKEN,
     TRELLO_LIST_ID: process.env.TRELLO_LIST_ID,
+    TETOAPP_LEAD_URL: process.env.TETOAPP_LEAD_URL,
+    TETOAPP_LEAD_TOKEN: process.env.TETOAPP_LEAD_TOKEN,
   }
 
   process.env.TRELLO_API_KEY = 'process-key'
   process.env.TRELLO_API_TOKEN = 'process-token'
   process.env.TRELLO_LIST_ID = 'process-list'
+  process.env.TETOAPP_LEAD_URL = 'https://tetoapp.test/leads'
+  process.env.TETOAPP_LEAD_TOKEN = 'test-lead-token'
 
   try {
     let trelloRequest
     const submit = createConsultoriaHandler({
       fetchImpl: async (input, init) => {
+        if (input === 'https://tetoapp.test/leads') return Response.json({data: {id: 1}}, {status: 201})
         trelloRequest = { input, init }
         return Response.json({ id: 'card-123' })
       },
