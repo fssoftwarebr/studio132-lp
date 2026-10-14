@@ -43,4 +43,10 @@ O runtime do Pages aceita `redirect: follow` ou `manual`, mas rejeita `error` an
 - Formulário preenchido e enviado pelo navegador com dados sintéticos; exibiu confirmação e limpou os campos após sucesso dos dois destinos.
 - Replay direto no TetoApp com a mesma chave e payload retornou HTTP 200, lead ID 2 e `duplicate: true`, confirmando a gravação anterior sem novo lead.
 - 24 testes passaram; Functions compiladas pelo Wrangler e adaptador Netlify compilado.
-- Publicação direta no Pages; o PR #2 ainda precisa ser integrado ao `main` do GitHub para preservar a mudança no próximo deploy feito da branch padrão.
+- Publicação direta no Pages; a PR #2 foi integrada ao `main` em 2026-10-13, preservando a integração nos próximos deploys.
+
+## Deploy automático
+
+O workflow `Cloudflare Pages` testa e compila PRs; publica apenas a `main`, após validação. Usa os secrets GitHub `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_API_TOKEN`, mantendo os secrets TetoApp/Trello na Cloudflare. `npm run build:pages` prepara somente os assets públicos em `.pages-dist/`, incluindo o favicon e `/version.json` com o commit. O workflow confirma a versão e os dois arquivos de favicon pelo domínio público depois do deploy.
+
+Referência: https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/

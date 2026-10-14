@@ -1,0 +1,69 @@
+name: Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build:pages
+      - name: Compile Pages Functions
+        run: npx --no-install wrangler pages functions build functions --outfile /tmp/studio132-functions.js
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://studio132.arq.br
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build:pages
+      - name: Verify Cloudflare authentication
+        run: npx --no-install wrangler whoami
+      - name: Publish production
+        run: npx --no-install wrangler pages deploy .pages-dist --project-name studio132-lp --branch main --commit-hash "$GITHUB_SHA"
+      - name: Verify production version and favicon
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            if curl -fsS "https://studio132.arq.br/version.json?commit=$GITHUB_SHA" -o /tmp/version.json && cmp .pages-dist/version.json /tmp/version.json; then
+              break
+            fi
+            sleep 5
+          done
+          cmp .pages-dist/version.json /tmp/version.json
+          curl -fsS https://studio132.arq.br/ -o /tmp/index.html
+          grep -F 'href="/favicon.ico"' /tmp/index.html
+          grep -F 'href="/images/favicon.png"' /tmp/index.html
+          curl -fsS https://studio132.arq.br/favicon.ico -o /tmp/favicon.ico
+          cmp favicon.ico /tmp/favicon.ico
+          curl -fsS https://studio132.arq.br/images/favicon.png -o /tmp/favicon.png
+          cmp images/favicon.png /tmp/favicon.png

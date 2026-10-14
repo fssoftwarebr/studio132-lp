@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "dev": "netlify dev --port 8889"
+    "dev": "netlify dev --port 8889",
+    "build:pages": "node scripts/build-pages.mjs"
   },
   "devDependencies": {
     "netlify-cli": "^23.3.0",
