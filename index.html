@@ -247,6 +247,11 @@
         form.append(status)
       }
 
+      const payload = JSON.stringify(Object.fromEntries(data.entries()))
+      if (form.dataset.submissionPayload !== payload) {
+        form.dataset.submissionId = crypto.randomUUID()
+        form.dataset.submissionPayload = payload
+      }
       submitButton.disabled = true
       status.textContent = 'Enviando sua solicitação...'
 
@@ -256,9 +261,10 @@
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'Idempotency-Key': form.dataset.submissionId
           },
-          body: JSON.stringify(Object.fromEntries(data.entries()))
+          body: payload
         })
         const result = await response.json()
 
@@ -266,6 +272,8 @@
 
          status.textContent = 'Recebemos sua solicitação. Em breve entraremos em contato.'
          form.reset()
+         delete form.dataset.submissionId
+         delete form.dataset.submissionPayload
          submitButton.disabled = false
        } catch (error) {
          status.textContent = error.message || 'Não foi possível enviar sua solicitação.'
