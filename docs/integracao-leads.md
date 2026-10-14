@@ -28,3 +28,7 @@ O Trello não oferece a mesma garantia de idempotência nesta integração: se c
 ## Validação
 
 `npm test` cobre os dois adaptadores, o mapeamento, falhas de configuração/rede/API, replay do TetoApp, validação de WhatsApp, entrega existente ao Trello e a chave do formulário.
+
+## Hospedagem confirmada em 2026-10-13
+
+O projeto Pages `studio132-lp` pertence à conta `Contato@studio132.arq.br` (`b8e202d351eb9cf884de740ffe09c877`), com domínios `studio132.arq.br` e `studio132-lp-897.pages.dev`. Não pertence à conta global do Wrangler. O token de administração fica no Keychain, service `cloudflare-api-token`, account igual ao ID da conta. `wrangler.toml` fixa o account ID para impedir que o cache do Wrangler direcione o deploy à conta global. As credenciais das duas integrações ficam nos bindings de produção. O deploy usa somente `index.html`, `css/`, `js/`, `images/` e `data/` como assets; as Functions são compiladas do repositório, sem publicar código de servidor, docs ou dependências como assets.
