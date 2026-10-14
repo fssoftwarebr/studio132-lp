@@ -19,6 +19,7 @@ for (const [runtime, adapter] of Object.entries({
     }, request())
     assert.equal(response.status, 201)
     assert.deepEqual(calls.map(c => c.url), [env.TETOAPP_LEAD_URL, 'https://api.trello.com/1/cards'])
+    assert.equal(calls[0].init.redirect, 'manual')
     assert.equal(calls[0].init.headers.Authorization, 'Bearer lead-secret')
     assert.equal(calls[0].init.headers['Idempotency-Key'], 'submission-123')
     const lead = JSON.parse(calls[0].init.body)
@@ -33,6 +34,16 @@ for (const [runtime, adapter] of Object.entries({
   test(`${runtime}: does not create a card when lead API rejects submission`, async () => {
     const calls = []
     const response = await adapter(env, async url => { calls.push(url); return new Response('{}', {status: 401}) }, request())
+    assert.equal(response.status, 502)
+    assert.deepEqual(calls, [env.TETOAPP_LEAD_URL])
+  })
+  test(`${runtime}: refuses lead redirects without sending to Trello`, async () => {
+    const calls = []
+    const response = await adapter(env, async (url, init) => {
+      calls.push(url)
+      assert.equal(init.redirect, 'manual')
+      return new Response(null, {status: 302, headers: {Location: 'https://other.test/leads'}})
+    }, request())
     assert.equal(response.status, 502)
     assert.deepEqual(calls, [env.TETOAPP_LEAD_URL])
   })
