@@ -1,13 +1,13 @@
 # Studio132 Landing Page
 
-Landing page da Studio132 em HTML/CSS/JavaScript, publicada na Netlify, com formulário de contato integrado ao TetoApp e ao Trello por funções de servidor Netlify/Cloudflare.
+Landing page da Studio132 em HTML/CSS/JavaScript, hospedada em produção no **Cloudflare Pages**, em https://studio132.arq.br, com formulário de contato integrado ao TetoApp e ao Trello por Pages Functions. **Vercel não é a hospedagem deste projeto.** O adaptador Netlify permanece para desenvolvimento local e compatibilidade legada.
 
 O favicon usa o símbolo atual da marca sobre fundo amarelo: `favicon.ico` (16, 32, 48 e 64 px) e `images/favicon.png` (256 px), declarados no `index.html`.
 
 ## Requisitos
 
 - Node.js 20 ou superior
-- Site configurado na Netlify
+- Projeto de produção configurado no Cloudflare Pages
 - Netlify CLI para desenvolvimento local
 - Uma chave e um token da API do Trello
 - O ID da lista do Trello que receberá os novos cards
@@ -72,3 +72,10 @@ Os secrets GitHub Actions `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_API_TOKEN` autor
 Após publicar, o workflow verifica o commit em `/version.json`, as declarações de favicon no HTML e o conteúdo dos arquivos ICO/PNG no domínio de produção. Consulte [o contrato da integração](docs/integracao-leads.md).
 
 O adaptador Netlify é mantido como código legado, mas não atende o domínio de produção.
+
+## Hospedagem e Analytics: referência para manutenção
+
+- **Hospedagem de produção:** Cloudflare Pages, projeto `studio132-lp`, conta Studio132 (`b8e202d351eb9cf884de740ffe09c877`). Domínios confirmados pela API em 14/10/2026: `studio132.arq.br` e `studio132-lp-897.pages.dev`.
+- **Deploy:** `.github/workflows/cloudflare-pages.yml`, com publicação da `main`. Consulte a seção Produção acima e `docs/integracao-leads.md` antes de mudar a infraestrutura. Não usar instruções de deploy da Vercel para este projeto.
+- **Netlify:** `netlify.toml`, `netlify/functions/` e `npm run dev` são ferramentas locais/legadas; sua presença não indica a hospedagem atual.
+- **Cloudflare Web Analytics:** a API de Web Analytics confirmou instalação automática (`auto_install: true`), e o HTML público de produção contém `https://static.cloudflareinsights.com/beacon.min.js` e `data-cf-beacon`, verificados em 14/10/2026. O beacon é inserido pela Cloudflare e não está no `index.html` versionado; não adicionar outro snippet sem verificar a configuração para evitar duplicidade. Essa verificação confirma a instrumentação publicada, mas não confirma números ou recebimento de eventos no painel.
