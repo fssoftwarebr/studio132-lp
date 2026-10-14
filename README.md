@@ -63,24 +63,12 @@ npm test
 
 ## Produção
 
-A hospedagem ativa é o Cloudflare Pages `studio132-lp`, na conta `Contato@studio132.arq.br`, em https://studio132.arq.br. Consulte [conta, bindings e procedimento de deploy](docs/integracao-leads.md). As instruções Netlify abaixo permanecem como alternativa de runtime.
+A produção está no Cloudflare Pages `studio132-lp`, na conta Studio132, em https://studio132.arq.br. O deploy é automático pelo workflow `.github/workflows/cloudflare-pages.yml` a cada push/merge na `main`; também aceita execução manual pelo GitHub Actions. PRs rodam testes e compilação, sem publicar.
 
-Na Netlify, conecte o repositório e use estas configurações:
+O workflow usa Node.js 22 e `npm ci`, executa `npm test`, prepara os assets com `npm run build:pages` e publica com o Wrangler instalado pelo lockfile. Apenas `index.html`, `favicon.ico`, `css/`, `js/`, `images/`, `data/` e `version.json` são publicados como assets. As Pages Functions são compiladas a partir de `functions/`, com a lógica compartilhada de `lib/`.
 
-- **Build command:** vazio
-- **Publish directory:** `.`
-- **Functions directory:** `netlify/functions`
+Os secrets GitHub Actions `CLOUDFLARE_ACCOUNT_ID` e `CLOUDFLARE_API_TOKEN` autorizam a publicação. As credenciais de TetoApp/Trello permanecem nos secrets de produção da Cloudflare; o URL da origem fica no `wrangler.toml`. Não coloque credenciais no código público.
 
-Em **Project configuration > Environment variables**, adicione `TRELLO_API_KEY`, `TRELLO_API_TOKEN`, `TRELLO_LIST_ID`, `TETOAPP_LEAD_URL` e `TETOAPP_LEAD_TOKEN`. As credenciais ficam disponíveis somente no servidor e nunca são enviadas ao navegador.
+Após publicar, o workflow verifica o commit em `/version.json`, as declarações de favicon no HTML e o conteúdo dos arquivos ICO/PNG no domínio de produção. Consulte [o contrato da integração](docs/integracao-leads.md).
 
-Também é possível publicar diretamente com a Netlify CLI:
-
-```bash
-netlify login
-netlify link
-netlify deploy --prod
-```
-
-O formulário envia os dados para `/api/consultoria/submissions`. Essa rota é atendida por `netlify/functions/consultoria-submissions.js`, que valida a solicitação, registra o lead no TetoApp e cria o card na lista configurada do Trello. No Cloudflare, `functions/api/consultoria/submissions.js` usa a mesma lógica de `lib/consultoria-submissions.js`.
-
-Configure as cinco variáveis no ambiente de servidor da hospedagem. Na Netlify use o escopo Functions; no Cloudflare configure o token como secret. Nunca inclua o token em HTML, JavaScript público ou arquivos versionados. Veja [o contrato de entrega](docs/integracao-leads.md).
+O adaptador Netlify é mantido como código legado, mas não atende o domínio de produção.
