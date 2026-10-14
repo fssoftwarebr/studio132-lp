@@ -2,6 +2,8 @@
 
 Landing page da Studio132 em HTML/CSS/JavaScript, publicada na Netlify, com formulário de contato integrado ao Trello por uma Netlify Function.
 
+O favicon usa o símbolo atual da marca sobre fundo amarelo: `favicon.ico` (16, 32, 48 e 64 px) e `images/favicon.png` (256 px), declarados no `index.html`.
+
 ## Requisitos
 
 - Node.js 20 ou superior
