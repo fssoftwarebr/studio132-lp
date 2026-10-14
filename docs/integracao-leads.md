@@ -36,3 +36,11 @@ O projeto Pages `studio132-lp` pertence à conta `Contato@studio132.arq.br` (`b8
 O URL público da origem fica em `[env.production.vars]` no `wrangler.toml`. O Wrangler substitui as variáveis plaintext ao publicar com configuração local; cadastrar somente no painel/API não basta. Os secrets existentes são preservados.
 
 O runtime do Pages aceita `redirect: follow` ou `manual`, mas rejeita `error` antes da chamada HTTP. A integração usa `manual` e recusa respostas 3xx, impedindo o encaminhamento do Bearer para outro destino.
+
+## Evidência de publicação em 2026-10-13
+
+- Código `a76d546` publicado como produção no Pages: https://56c06ad6.studio132-lp-897.pages.dev (ativo em https://studio132.arq.br).
+- Formulário preenchido e enviado pelo navegador com dados sintéticos; exibiu confirmação e limpou os campos após sucesso dos dois destinos.
+- Replay direto no TetoApp com a mesma chave e payload retornou HTTP 200, lead ID 2 e `duplicate: true`, confirmando a gravação anterior sem novo lead.
+- 24 testes passaram; Functions compiladas pelo Wrangler e adaptador Netlify compilado.
+- Publicação direta no Pages; o PR #2 ainda precisa ser integrado ao `main` do GitHub para preservar a mudança no próximo deploy feito da branch padrão.

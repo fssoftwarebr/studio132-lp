@@ -61,6 +61,8 @@ npm test
 
 ## Produção
 
+A hospedagem ativa é o Cloudflare Pages `studio132-lp`, na conta `Contato@studio132.arq.br`, em https://studio132.arq.br. Consulte [conta, bindings e procedimento de deploy](docs/integracao-leads.md). As instruções Netlify abaixo permanecem como alternativa de runtime.
+
 Na Netlify, conecte o repositório e use estas configurações:
 
 - **Build command:** vazio
