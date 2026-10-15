@@ -11,7 +11,7 @@ test('reuses request identity only for retries with the same form data', async (
   let submit, sequence = 0, succeed = false
   const requests = []
   let fields = {nome: 'Teste', whatsapp: '11999999999'}
-  const form = { dataset: {}, querySelector: selector => selector === '.form-status' ? {style: {}} : {}, reset() {}, }
+  const form = { dataset: {}, querySelector: selector => selector === '.form-status' ? {style: {}} : {}, reset() {}, setAttribute() {}, removeAttribute() {}, }
   vm.runInNewContext(listener, {
     document: {getElementById: () => ({addEventListener: (_, callback) => {submit = callback}})},
     FormData: class {entries() {return Object.entries(fields)}},

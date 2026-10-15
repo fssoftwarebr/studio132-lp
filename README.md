@@ -79,3 +79,15 @@ O adaptador Netlify é mantido como código legado, mas não atende o domínio d
 - **Deploy:** `.github/workflows/cloudflare-pages.yml`, com publicação da `main`. Consulte a seção Produção acima e `docs/integracao-leads.md` antes de mudar a infraestrutura. Não usar instruções de deploy da Vercel para este projeto.
 - **Netlify:** `netlify.toml`, `netlify/functions/` e `npm run dev` são ferramentas locais/legadas; sua presença não indica a hospedagem atual.
 - **Cloudflare Web Analytics:** a API de Web Analytics confirmou instalação automática (`auto_install: true`), e o HTML público de produção contém `https://static.cloudflareinsights.com/beacon.min.js` e `data-cf-beacon`, verificados em 14/10/2026. O beacon é inserido pela Cloudflare e não está no `index.html` versionado; não adicionar outro snippet sem verificar a configuração para evitar duplicidade. Essa verificação confirma a instrumentação publicada, mas não confirma números ou recebimento de eventos no painel.
+
+## Hero, pacotes e acessibilidade
+
+O hero usa `/images/projeto-02.webp`, do portfólio existente, com prioridade de carregamento e dimensões explícitas. O preço inicial deve acompanhar o Nível 01. Os ajustes visuais ficam em `css/landing-improvements.css`, carregado depois dos estilos existentes.
+
+Cada link “Quero este pacote” mantém `href="#solicitar"` como fallback. Com JavaScript, `js/form.js` preenche `nivel_escolhido` usando o texto exato da opção, dispara `change` e leva o foco ao seletor no formulário. Os campos, preços e contrato de entrega TetoApp/Trello permanecem os mesmos.
+
+O HTML inclui canonical, Open Graph e Twitter Card com URLs absolutas de produção. A imagem social `/images/studio132-social.jpg` tem 1200 × 630 px e deriva do mesmo projeto do hero. Ao trocar a imagem, atualize as dimensões e descrições nos metadados. Referência: https://ogp.me/.
+
+Os controles possuem foco visível, inputs com fonte mínima de 16 px, nome com autocomplete e WhatsApp com teclado de telefone. O status de envio usa uma região de anúncio acessível. `prefers-reduced-motion` desativa rolagem e transições; o carrossel pula diretamente entre projetos para não depender de `transitionend` ao contornar o último slide. Referência: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion.
+
+Validação: `npm test`, `npm run build:pages` e compilação das Pages Functions conforme o workflow. O teste de seleção executa os listeners reais dos três pacotes. A conferência visual local deve cobrir desktop/mobile, foco por teclado e o carrossel com movimento reduzido. A publicação e o resultado em compartilhadores/buscadores precisam ser verificados após deploy; os metadados locais não comprovam atualização dos caches externos.

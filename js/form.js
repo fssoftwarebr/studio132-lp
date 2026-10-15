@@ -125,3 +125,16 @@ if (cityInput) {
     if (!wrapper.contains(event.target)) closeOptions()
   })
 }
+
+// Keep the existing service labels as values sent to the lead integration.
+const packageSelect = document.querySelector('select[name="nivel_escolhido"]')
+if (packageSelect) {
+  document.querySelectorAll('[data-package]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault()
+      packageSelect.value = link.dataset.package
+      packageSelect.dispatchEvent(new Event('change', { bubbles: true }))
+      packageSelect.focus()
+    })
+  })
+}
