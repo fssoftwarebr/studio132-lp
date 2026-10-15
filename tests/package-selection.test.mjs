@@ -7,9 +7,9 @@ import vm from 'node:vm'
 test('each package link selects its matching service and focuses the field', async () => {
   const source = await readFile(new URL('../js/form.js', import.meta.url), 'utf8')
   const values = [
-    'Nível 01 – Reunião com Especialista',
-    'Nível 02 – Consultoria de Layout',
-    'Nível 03 – Consultoria Completa',
+    'Nível 01: Reunião com Especialista',
+    'Nível 02: Consultoria de Layout',
+    'Nível 03: Consultoria Completa',
   ]
   let focused = false
   const changes = []
