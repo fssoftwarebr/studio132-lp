@@ -93,3 +93,5 @@ Os controles possuem foco visível, inputs com fonte mínima de 16 px, nome com 
 Validação: `npm test`, `npm run build:pages` e compilação das Pages Functions conforme o workflow. O teste de seleção executa os listeners reais dos três pacotes. A conferência visual local deve cobrir desktop/mobile, foco por teclado e o carrossel com movimento reduzido. A publicação e o resultado em compartilhadores/buscadores precisam ser verificados após deploy; os metadados locais não comprovam atualização dos caches externos.
 
 O build Pages acrescenta `?v=<hash-do-conteúdo>` aos URLs de JavaScript e CSS referenciados no HTML. Isso evita misturar HTML novo com `form.js` antigo no cache de visitantes recorrentes. Validação de deploy deve conferir o script realmente carregado no navegador e testar a seleção de pacote, além de `/version.json`. `tests/build-pages-cache.test.mjs` comprova que o URL muda apenas quando o asset muda.
+
+No celular, o rodapé mantém o espaçamento inferior original de 30 px. O texto de copyright reserva 64 px à direita para não ficar sob o botão flutuante do WhatsApp; não aumentar o padding inferior do rodapé para compensar o botão.

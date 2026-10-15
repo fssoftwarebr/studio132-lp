@@ -67,7 +67,8 @@ main:focus { outline: none; }
   .nav-link { max-width: 165px; text-align: right; line-height: 1.5; }
   .logo img { max-width: 128px; height: auto; }
   .package-select { width: 100%; }
-  .footer { padding-bottom: 96px; }
+  /* Keep the floating WhatsApp clear of the copyright without a blank bottom band. */
+  .footer p { padding-right: 64px; }
   .whatsapp { right: 16px; bottom: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
